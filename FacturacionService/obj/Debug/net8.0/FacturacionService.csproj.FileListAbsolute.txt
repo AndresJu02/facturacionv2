@@ -17,6 +17,7 @@ C:\Users\andre\PROYECTOS C#\Facturacion\FacturacionService\obj\Debug\net8.0\Fact
 C:\Users\andre\PROYECTOS C#\Facturacion\FacturacionService\obj\Debug\net8.0\FacturacionService.csproj.CoreCompileInputs.cache
 C:\Users\andre\PROYECTOS C#\Facturacion\FacturacionService\obj\Debug\net8.0\FacturacionService.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\andre\PROYECTOS C#\Facturacion\FacturacionService\obj\Debug\net8.0\FacturacionService.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\andre\PROYECTOS C#\Facturacion\FacturacionService\obj\Debug\net8.0\FacturacionService.sourcelink.json
 C:\Users\andre\PROYECTOS C#\Facturacion\FacturacionService\obj\Debug\net8.0\staticwebassets.build.json
 C:\Users\andre\PROYECTOS C#\Facturacion\FacturacionService\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\andre\PROYECTOS C#\Facturacion\FacturacionService\obj\Debug\net8.0\staticwebassets\msbuild.FacturacionService.Microsoft.AspNetCore.StaticWebAssets.props
