@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using FacturacionService.Domain.Entity;
 using FacturacionService.Application.Service;
+using FacturacionService.Adapter.Entity;
+using FacturacionService.Adapter.restful.v1.Mapper;
+using System.Threading.Tasks;
 
 namespace FacturacionService.Adapter.restful.v1.Controller
 {
@@ -8,43 +10,45 @@ namespace FacturacionService.Adapter.restful.v1.Controller
     [Route("api/v1/facturas")]
     public class FacturasController : ControllerBase
     {
-        private readonly IFacturaService _facturaService;
+        private readonly IFacturaService _service;
+        private readonly IAdapterMapper _mapper;
 
-        public FacturasController(IFacturaService facturaService)
+        public FacturasController(IFacturaService service, IAdapterMapper mapper)
         {
-            _facturaService = facturaService;
+            _service = service;
+            _mapper = mapper;
         }
 
         [HttpPost]
-        public IActionResult CrearFactura([FromBody] Factura factura)
+        public async Task<IActionResult> GenerarFactura([FromBody] AdapterFacturaEntity payload)
         {
-            var nuevaFactura = _facturaService.GenerarFactura(factura);
-            return Ok(nuevaFactura);
+            var domain = _mapper.ToDomain(payload);
+            var saved = await _service.GenerarFacturaAsync(domain);
+            var dto = _mapper.ToAdapter(saved);
+            return CreatedAtAction(nameof(ObtenerFacturaPorId), new { id = dto.IdFactura }, dto);
         }
 
         [HttpGet]
-        public IActionResult ObtenerFacturas()
+        public async Task<IActionResult> ObtenerFacturas()
         {
-            var facturas = _facturaService.ObtenerFacturas();
-            return Ok(facturas);
+            var list = await _service.ObtenerFacturasAsync();
+            return Ok(_mapper.ToAdapterList(list));
         }
 
-        [HttpGet("{id}")]
-        public IActionResult ObtenerFacturaPorId(int id)
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> ObtenerFacturaPorId(int id)
         {
-            var factura = _facturaService.ObtenerFacturaPorId(id);
-            if (factura == null)
-                return NotFound($"No se encontró la factura con ID {id}");
-            return Ok(factura);
+            var f = await _service.ObtenerFacturaPorIdAsync(id);
+            if (f == null) return NotFound();
+            return Ok(_mapper.ToAdapter(f));
         }
 
-        [HttpPut("anular/{id}")]
-        public IActionResult AnularFactura(int id)
+        [HttpPut("anular/{id:int}")]
+        public async Task<IActionResult> AnularFactura(int id)
         {
-            var resultado = _facturaService.AnularFactura(id);
-            if (!resultado)
-                return NotFound($"No se pudo anular la factura {id}");
-            return Ok($"Factura {id} anulada correctamente.");
+            var ok = await _service.AnularFacturaAsync(id);
+            if (!ok) return NotFound();
+            return Ok(new { message = $"Factura {id} anulada" });
         }
     }
 }

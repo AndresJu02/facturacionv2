@@ -1,13 +1,23 @@
+using System;
+using System.ComponentModel.DataAnnotations;
+
 namespace FacturacionService.Domain.Entity
 {
     public class Factura
     {
+        [Key]
         public int IdFactura { get; set; }
-        public DateTime FechaFactura { get; set; } = DateTime.Now;
-        public double MontoTotal { get; set; }
-        public double ImpuestoAplicado { get; set; }
-        public double? Descuento { get; set; }
-        public string MetodoPago { get; set; } = string.Empty; // efectivo, tarjeta, transferencia
-        public string EstadoFactura { get; set; } = "pendiente"; // pagada, pendiente, anulada
+
+        public int IdProducto { get; set; }
+        public DateTime FechaFactura { get; set; }
+        public string NombreProducto { get; set; } = string.Empty;
+        public int Cantidad { get; set; }
+        public decimal Precio { get; set; }
+        public decimal Descuento { get; set; }
+        public decimal Subtotal { get; set; }
+        public decimal IVA { get; set; }
+        public decimal Total { get; set; }
+        public string MetodoPago { get; set; } = string.Empty;
+        public string EstadoFactura { get; set; } = string.Empty;
     }
 }
